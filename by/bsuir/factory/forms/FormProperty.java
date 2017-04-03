@@ -11,6 +11,7 @@ import javafx.scene.layout.RowConstraints;
 import javafx.util.Callback;
 
 import java.util.*;
+import java.util.function.BiConsumer;
 
 /**
  * Created by Koshelek on 03.04.2017.
@@ -18,7 +19,7 @@ import java.util.*;
 public class FormProperty <T extends Object> {
 
     private final static double anchhorMargin = 10.0;
-    private Map<String,IsetFunction<T,String>> setFunctions = new HashMap<>();
+    private Map<String,BiConsumer<T,String>> setFunctions = new HashMap<>();
     private Map<String,Callback<T,String>> getCallback = new HashMap<>();
     private Map<String,TextField> mapTextField = new HashMap<>();
     private Map<String,Label> mapLabel = new HashMap<>();
@@ -61,7 +62,7 @@ public class FormProperty <T extends Object> {
         changeObject = newObject;
     }
 
-    public void addFieldToForm(String name,Callback<T,String> getFunction,IsetFunction<T,String> setFunction){
+    public void addFieldToForm(String name,Callback<T,String> getFunction,BiConsumer<T,String> setFunction){
         fields.add(name);
         setFunctions.put(name,setFunction);
         getCallback.put(name,getFunction);
@@ -86,7 +87,7 @@ public class FormProperty <T extends Object> {
 
     private void setTextToObject(){
         for (String field : fields) {
-            setFunctions.get(field).call(changeObject,mapTextField.get(field).getText());
+            setFunctions.get(field).accept(changeObject,mapTextField.get(field).getText());
         }
     }
 

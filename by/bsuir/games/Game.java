@@ -6,7 +6,7 @@ import java.io.Serializable;
  * Created by Koshelek on 28.03.2017.
  */
 public class Game implements Serializable {
-    protected String name;
+    protected String name = "New Game";
     protected int cost;
     protected String releasedate;
     protected String producer;
