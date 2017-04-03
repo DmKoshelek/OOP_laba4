@@ -1,5 +1,6 @@
 package by.bsuir.factory.forms;
 
+import by.bsuir.games.Game;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -14,7 +15,7 @@ import java.util.*;
 /**
  * Created by Koshelek on 03.04.2017.
  */
-public class FormProperty <T> {
+public class FormProperty <T extends Object> {
 
     private final static double anchhorMargin = 10.0;
     private Map<String,IsetFunction<T,String>> setFunctions = new HashMap<>();
@@ -89,8 +90,8 @@ public class FormProperty <T> {
         }
     }
 
-    public AnchorPane getForm(T newObject){
-        setObjectToChange(newObject);
+    public AnchorPane getForm(Object newObject){
+        setObjectToChange((T)newObject);
         getTextToField();
         return formForField;
     }
