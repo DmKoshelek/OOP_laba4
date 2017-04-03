@@ -1,9 +1,11 @@
 package by.bsuir.games;
 
+import java.io.Serializable;
+
 /**
  * Created by Koshelek on 28.03.2017.
  */
-public class Tabletopgame extends Game {
+public class Tabletopgame extends Game implements Serializable {
     protected int minCountPlayers;
     protected int maxCountPlayers;
 
