@@ -15,7 +15,7 @@ public class FactoryForms {
     public final static double widthField = 240;
     public final static double heightRow = 30;
 
-    
+
     Map<Class<?>,FormProperty<? extends Game>> factoryMap = new HashMap<>();
     public FactoryForms(){
         FormProperty<Game> gameForm = new FormProperty<>(widthLabel,widthField,heightRow);
