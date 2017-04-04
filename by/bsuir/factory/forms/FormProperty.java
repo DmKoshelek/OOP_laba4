@@ -10,6 +10,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.util.Callback;
 
+import javax.swing.*;
 import java.util.*;
 import java.util.function.BiConsumer;
 
@@ -86,8 +87,13 @@ public class FormProperty <T extends Object> {
     }
 
     private void setTextToObject(){
-        for (String field : fields) {
-            setFunctions.get(field).accept(changeObject,mapTextField.get(field).getText());
+        try {
+            for (String field : fields) {
+                setFunctions.get(field).accept(changeObject, mapTextField.get(field).getText());
+            }
+        }
+        catch(Exception e){
+                JOptionPane.showMessageDialog(null, "Please, input correct value", "Error" , JOptionPane.ERROR_MESSAGE);
         }
     }
 

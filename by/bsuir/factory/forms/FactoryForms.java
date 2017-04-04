@@ -51,7 +51,7 @@ public class FactoryForms {
         boardgameForm.addFieldToForm("minCountPlayers",(game->Integer.toString(game.getMinCountPlayers())),((game,fieldText)->game.setMinCountPlayers(Integer.parseInt(fieldText))));
         boardgameForm.addFieldToForm("maxCountPlayers",(game->Integer.toString(game.getMaxCountPlayers())),((game,fieldText)->game.setMaxCountPlayers(Integer.parseInt(fieldText))));
         boardgameForm.addFieldToForm("countCells",(game->Integer.toString(game.getCountCells())),((game,fieldText)->game.setCountCells(Integer.parseInt(fieldText))));
-        factoryMap.put(Boardgame.class,cardgameForm);
+        factoryMap.put(Boardgame.class,boardgameForm);
 
         FormProperty<Activegame> activegameForm = new FormProperty<>(widthLabel,widthField,heightRow);
         activegameForm.addFieldToForm("name",(game->game.getName()),((game,fieldText)->game.setName(fieldText)));

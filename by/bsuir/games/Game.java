@@ -1,5 +1,8 @@
 package by.bsuir.games;
 
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+
 import java.io.Serializable;
 
 /**
@@ -7,12 +10,19 @@ import java.io.Serializable;
  */
 public class Game implements Serializable {
     protected String name = "New Game";
+    private transient StringProperty nameProperty;
     protected int cost;
     protected String releasedate;
     protected String producer;
 
     public String getName() {
         return name;
+    }
+
+    public StringProperty getNameProperty(){
+        if(nameProperty == null){nameProperty = new SimpleStringProperty();}
+        nameProperty.setValue(name);
+        return nameProperty;
     }
 
     public int getCost() {
@@ -29,6 +39,9 @@ public class Game implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+        if(nameProperty != null){
+            nameProperty.setValue(name);
+        }
     }
 
     public void setCost(int cost) {

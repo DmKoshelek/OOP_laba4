@@ -3,6 +3,7 @@ package by.bsuir.main;
 import by.bsuir.factory.forms.FactoryForms;
 import by.bsuir.factory.games.FactoryGames;
 import by.bsuir.games.Game;
+import by.bsuir.serialization.SerializationOfList;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -14,9 +15,10 @@ import javafx.scene.control.TableView;
 import javafx.scene.layout.AnchorPane;
 
 import javax.swing.*;
-import java.util.ArrayList;
 
 public class Controller implements Initializable {
+
+    public final static String filenameSerilizationFile= "games.objs";
 
     @FXML
     private ComboBox<String> cmboxGameItems;
@@ -30,6 +32,7 @@ public class Controller implements Initializable {
     private ObservableList<Game> listGame = FXCollections.observableArrayList();
     private FactoryGames factoryGames = new FactoryGames();
     private FactoryForms factoryForms = new FactoryForms();
+    private SerializationOfList<Game> serializator = new SerializationOfList<>();
 
     @FXML
     public void initialize(java.net.URL location, java.util.ResourceBundle resources) {
@@ -44,10 +47,19 @@ public class Controller implements Initializable {
                 "Cardgame"
         );
         cmboxGameItems.setValue("Game");
-        coumGameName.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getName()));
+        //coumGameName.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getName()));
+        coumGameName.setCellValueFactory(cellData -> cellData.getValue().getNameProperty());
         tbGamesList.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             try {
-                factoryForms.GetForm(newValue);
+                paneGameEditor.getChildren().clear();
+                if(newValue != null){
+                    AnchorPane newForm = factoryForms.GetForm(newValue);
+                    AnchorPane.setLeftAnchor(newForm,0.0);
+                    AnchorPane.setTopAnchor(newForm,0.0);
+                    AnchorPane.setRightAnchor(newForm,0.0);
+                    AnchorPane.setBottomAnchor(newForm,0.0);
+                    paneGameEditor.getChildren().add(newForm);
+                }
             }catch(Exception e){
                 JOptionPane.showMessageDialog(null, "Suitable form don't found", "Error" , JOptionPane.ERROR_MESSAGE);
             }
@@ -65,12 +77,25 @@ public class Controller implements Initializable {
         }
     }
     public void onActionDeleteButton(){
-
+        int selectedIndex = tbGamesList.getSelectionModel().getSelectedIndex();
+        if (selectedIndex >= 0) {
+            tbGamesList.getItems().remove(selectedIndex);
+        }
     }
     public void onActionLoadButton(){
-
+        listGame.clear();
+        try {
+            serializator.LoadFromFile(listGame, filenameSerilizationFile);
+        }catch (Exception e){
+            listGame.clear();
+            JOptionPane.showMessageDialog(null, "Coudn't deserializator list", "Error" , JOptionPane.ERROR_MESSAGE);
+        }
     }
     public void onActionSaveButton(){
-
+        try {
+            serializator.SaveToFileList(listGame, filenameSerilizationFile);
+        }catch (Exception e){
+            JOptionPane.showMessageDialog(null, "Coudn't serializator list", "Error" , JOptionPane.ERROR_MESSAGE);
+        }
     }
 }
