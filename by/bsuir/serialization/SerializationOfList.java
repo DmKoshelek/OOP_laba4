@@ -7,7 +7,7 @@ import java.util.List;
  * Created by Koshelek on 04.04.2017.
  */
 public class SerializationOfList<T> {
-    public void SaveToFileList(List<T> savelist, String filename) throws IOException{
+    public void saveToFileList(List<T> savelist, String filename) throws IOException{
         FileOutputStream fos = new FileOutputStream(filename);
         ObjectOutputStream oos = null;
         try {
@@ -23,7 +23,7 @@ public class SerializationOfList<T> {
         }
     }
 
-    public void LoadFromFile(List<T> loadlist, String filename)throws IOException,ClassNotFoundException,ClassCastException{
+    public void loadFromFile(List<T> loadlist, String filename)throws IOException,ClassNotFoundException,ClassCastException{
         FileInputStream fis = new FileInputStream(filename);
         ObjectInputStream ois = null;
         try {
