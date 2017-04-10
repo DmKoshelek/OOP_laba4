@@ -10,7 +10,7 @@ import java.util.function.Supplier;
  * Created by Koshelek on 04.04.2017.
  */
 public class FactoryGames {
-    Map<String,Supplier<Game>> factoryMap = new HashMap<>();
+    Map<String,IGameGetter> factoryMap = new HashMap<>();
 
     public FactoryGames(){
         factoryMap.put("Activegame",()->new Activegame());
@@ -25,5 +25,9 @@ public class FactoryGames {
 
     public Game getGameByName(String name){
         return factoryMap.get(name).get();
+    }
+
+    public void addNewElem (String nameElem,IGameGetter factoryMethod){
+        factoryMap.put(nameElem,factoryMethod);
     }
 }

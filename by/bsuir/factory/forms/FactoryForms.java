@@ -16,7 +16,7 @@ public class FactoryForms {
     public final static double heightRow = 30;
 
 
-    Map<Class<?>,FormProperty<? extends Game>> factoryMap = new HashMap<>();
+    Map<Class<?>,IFormGetter> factoryMap = new HashMap<>();
     public FactoryForms(){
         FormProperty<Game> gameForm = new FormProperty<>(widthLabel,widthField,heightRow);
         gameForm.addFieldToForm("name",(game->game.getName()),((game,fieldText)->game.setName(fieldText)));
@@ -89,5 +89,9 @@ public class FactoryForms {
 
     public AnchorPane GetForm(Game changeGame){
         return factoryMap.get(changeGame.getClass()).getForm(changeGame);
+    }
+
+    public void AddToFactory(Class<?> newElem,IFormGetter newPaneGetter){
+        factoryMap.put(newElem,newPaneGetter);
     }
 }
