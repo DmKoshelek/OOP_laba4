@@ -3,8 +3,8 @@ package by.bsuir.main;
 import by.bsuir.factory.forms.FactoryForms;
 import by.bsuir.factory.games.FactoryGames;
 import by.bsuir.games.Game;
+import by.bsuir.plugin.loaders.GamePlaginLoader;
 import by.bsuir.serialization.SerializationOfList;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -29,14 +29,17 @@ public class Controller implements Initializable {
     @FXML
     private TableColumn<Game, String> coumGameName;
 
+    private GamePlaginLoader gamePlaginLoader = new GamePlaginLoader();
     private ObservableList<Game> listGame = FXCollections.observableArrayList();
+    private ObservableList<String> cmboxlist = FXCollections.observableArrayList();
     private FactoryGames factoryGames = new FactoryGames();
     private FactoryForms factoryForms = new FactoryForms();
     private SerializationOfList<Game> serializator = new SerializationOfList<>();
 
     @FXML
     public void initialize(java.net.URL location, java.util.ResourceBundle resources) {
-        cmboxGameItems.getItems().addAll(
+
+        cmboxlist.addAll(
                 "Game",
                 "Activegame",
                 "Logicalgame",
@@ -46,6 +49,13 @@ public class Controller implements Initializable {
                 "Boardgame",
                 "Cardgame"
         );
+        try{
+            gamePlaginLoader.plaginLoad();
+            gamePlaginLoader.addClassesToElem(factoryGames,factoryForms,cmboxlist);
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null, "Error loading plagins", "Error" , JOptionPane.ERROR_MESSAGE);
+        }
+        cmboxGameItems.setItems(cmboxlist);
         cmboxGameItems.setValue("Game");
         //coumGameName.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getName()));
         coumGameName.setCellValueFactory(cellData -> cellData.getValue().getNameProperty());
@@ -65,6 +75,7 @@ public class Controller implements Initializable {
             }
         });
         tbGamesList.setItems(listGame);
+
     }
 
     public void onActionNewButton(){
@@ -85,7 +96,7 @@ public class Controller implements Initializable {
     public void onActionLoadButton(){
         listGame.clear();
         try {
-            serializator.LoadFromFile(listGame, filenameSerilizationFile);
+            serializator.loadFromFile(listGame, filenameSerilizationFile);
         }catch (Exception e){
             listGame.clear();
             JOptionPane.showMessageDialog(null, "Coudn't deserializator list", "Error" , JOptionPane.ERROR_MESSAGE);
@@ -93,7 +104,7 @@ public class Controller implements Initializable {
     }
     public void onActionSaveButton(){
         try {
-            serializator.SaveToFileList(listGame, filenameSerilizationFile);
+            serializator.saveToFileList(listGame, filenameSerilizationFile);
         }catch (Exception e){
             JOptionPane.showMessageDialog(null, "Coudn't serializator list", "Error" , JOptionPane.ERROR_MESSAGE);
         }

@@ -1,8 +1,7 @@
 package by.bsuir.plugin.interfaces;
 
-import by.bsuir.factory.forms.IFormGetter;
-import by.bsuir.factory.games.IGameGetter;
 import by.bsuir.plugin.PluginLoadException;
+import by.bsuir.plugin.loaders.JarVerifier;
 
 import java.io.File;
 import java.io.IOException;
@@ -22,7 +21,12 @@ public class PluginInfo {
 
     public PluginInfo(File jarFile) throws PluginLoadException {
         try {
-            Properties props = getPluginProps(jarFile);
+            JarFile jar = new JarFile(jarFile);
+            if(!checkJarFile(jar)){
+                throw new IllegalArgumentException(jarFile.getName()+ " - No good certificate found");
+            }
+
+            Properties props = getPluginProps(jar);
             if (props == null)
                 throw new IllegalArgumentException("No props file found");
 
@@ -48,9 +52,8 @@ public class PluginInfo {
     public IFormGetter getPluginForm() {return instance.gerIForm();}
     public IGameGetter getPluginGameClass() {return instance.getIGame();}
 
-    private Properties getPluginProps(File file) throws IOException,ClassCastException {
+    private Properties getPluginProps(JarFile jar) throws IOException,ClassCastException {
         Properties result = null;
-        JarFile jar = new JarFile(file);
         Enumeration entries = jar.entries();
 
         while (entries.hasMoreElements()) {
@@ -69,5 +72,16 @@ public class PluginInfo {
             }
         }
         return result;
+    }
+
+    private boolean checkJarFile(JarFile jar) throws IOException,SecurityException{
+        try {
+            JarVerifier jarVerifier = new JarVerifier();
+            jarVerifier.verify(jar);
+        }
+        catch (Exception e) {
+            return false;
+        }
+        return true;
     }
 }

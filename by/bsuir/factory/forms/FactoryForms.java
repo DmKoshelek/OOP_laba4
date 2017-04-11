@@ -1,6 +1,7 @@
 package by.bsuir.factory.forms;
 
 import by.bsuir.games.*;
+import by.bsuir.plugin.interfaces.IFormGetter;
 import javafx.scene.layout.AnchorPane;
 
 import java.util.HashMap;

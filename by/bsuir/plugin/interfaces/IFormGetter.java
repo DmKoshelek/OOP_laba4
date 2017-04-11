@@ -1,4 +1,4 @@
-package by.bsuir.factory.forms;
+package by.bsuir.plugin.interfaces;
 
 import javafx.scene.layout.AnchorPane;
 

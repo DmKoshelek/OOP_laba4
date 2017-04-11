@@ -33,10 +33,12 @@ public class GamePlaginLoader {
             try {
                 plugins.put(file.getName(), new PluginInfo(file));
             } catch (PluginLoadException e) {
-                e.printStackTrace();
+                //JOptionPane.showMessageDialog(null, e.getLocalizedMessage(), "Error" , JOptionPane.ERROR_MESSAGE);
             }
+
         }
     }
+
     public void addClassesToElem(FactoryGames factoryGames,FactoryForms factoryForms,ObservableList<String> list){
         synchronized (plugins) {
             for (PluginInfo pluginInfo : plugins.values()) {

@@ -1,6 +1,7 @@
 package by.bsuir.factory.forms;
 
-import by.bsuir.games.Game;
+import by.bsuir.plugin.interfaces.IFormGetter;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -11,13 +12,16 @@ import javafx.scene.layout.RowConstraints;
 import javafx.util.Callback;
 
 import javax.swing.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.function.BiConsumer;
 
 /**
  * Created by Koshelek on 03.04.2017.
  */
-public class FormProperty <T extends Object> {
+public class FormProperty <T extends Object> implements IFormGetter {
 
     private final static double anchhorMargin = 10.0;
     private Map<String,BiConsumer<T,String>> setFunctions = new HashMap<>();
@@ -29,7 +33,7 @@ public class FormProperty <T extends Object> {
     private AnchorPane formForField = new AnchorPane();
     private GridPane gridOfFields = new GridPane();
 
-    private T changeObject = null;
+    protected T changeObject = null;
 
     private int freeRow = 0;
 
@@ -67,26 +71,31 @@ public class FormProperty <T extends Object> {
         fields.add(name);
         setFunctions.put(name,setFunction);
         getCallback.put(name,getFunction);
-        gridOfFields.getRowConstraints().add(new RowConstraints(heightRow));
+
         Label nameProperty = new Label(name);
         mapLabel.put(name,nameProperty);
-        GridPane.setConstraints(nameProperty, 0,freeRow);
 
         TextField filedProperty = new TextField();
         mapTextField.put(name,filedProperty);
-        GridPane.setConstraints(filedProperty, 1,freeRow);
-        freeRow++;
 
-        gridOfFields.getChildren().addAll(nameProperty, filedProperty);
+        addElemToGrid(nameProperty,filedProperty);
     }
 
-    private void getTextToField(){
+    protected void addElemToGrid(Node elem1, Node elem2){
+        gridOfFields.getRowConstraints().add(new RowConstraints(heightRow));
+        GridPane.setConstraints(elem1, 0,freeRow);
+        GridPane.setConstraints(elem2, 1,freeRow);
+        gridOfFields.getChildren().addAll(elem1, elem2);
+        freeRow++;
+    }
+
+    protected void getTextToField(){
         for (String field : fields) {
             mapTextField.get(field).setText(getCallback.get(field).call(changeObject));
         }
     }
 
-    private void setTextToObject(){
+    protected void setTextToObject(){
         try {
             for (String field : fields) {
                 setFunctions.get(field).accept(changeObject, mapTextField.get(field).getText());

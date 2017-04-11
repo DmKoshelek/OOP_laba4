@@ -1,4 +1,4 @@
-package by.bsuir.factory.games;
+package by.bsuir.plugin.interfaces;
 
 import by.bsuir.games.Game;
 

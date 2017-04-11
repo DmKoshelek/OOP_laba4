@@ -1,10 +1,10 @@
 package by.bsuir.factory.games;
 
 import by.bsuir.games.*;
+import by.bsuir.plugin.interfaces.IGameGetter;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.function.Supplier;
 
 /**
  * Created by Koshelek on 04.04.2017.

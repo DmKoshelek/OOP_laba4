@@ -1,4 +1,4 @@
-package by.bsuir.plugin.providers;
+package by.bsuir.plugin.loaders;
 
 /**
  * Created by Koshelek on 11.04.2017.
@@ -43,18 +43,18 @@ package by.bsuir.plugin.providers;
   * maintenance of any nuclear facility.
  */
 
-import java.io.*;
-import java.net.*;
-import java.security.cert.*;
-import java.security.AccessController;
-import java.security.CodeSource;
-import java.security.PrivilegedAction;
-import java.security.PrivilegedExceptionAction;
-import java.security.PrivilegedActionException;
-import java.security.Provider;
-import java.security.PublicKey;
-import java.util.*;
-import java.util.jar.*;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.security.cert.Certificate;
+import java.security.cert.CertificateException;
+import java.security.cert.CertificateFactory;
+import java.security.cert.X509Certificate;
+import java.util.Enumeration;
+import java.util.Vector;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
+import java.util.jar.Manifest;
 
 public final class JarVerifier {
 
